@@ -23,7 +23,6 @@ type Connections struct {
 type dbConfig struct {
 	Hostname string
 	Username string
-	SSHKey   string `yaml:"ssh_key"`
 	Port     string
 }
 
