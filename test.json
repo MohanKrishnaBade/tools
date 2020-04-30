@@ -1,0 +1,25 @@
+{
+  "connections": [
+    {
+      "host_name": "192.168.0.1",
+      "user_name": "mohan",
+      "password": "something",
+      "db_name": "auth",
+      "port": "236243"
+    },
+    {
+      "host_name": "1192.168.0",
+      "user_name": "test1",
+      "password": "something1",
+      "db_name": "auth1",
+      "port": "r23453463"
+    },
+    {
+      "host_name": "127.0.0.1",
+      "user_name": "test2",
+      "password": "something2",
+      "db_name": "auth2",
+      "port": "4253634"
+    }
+  ]
+}
