@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"log"
 	"os/exec"
 	"reflect"
 	"strings"
@@ -9,12 +8,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type closeApp struct {
+}
+
 // closeAppCmd represents the closeApp command
 var closeAppCmd = &cobra.Command{
 	Use:   "closeApp",
-	Short: "it helps to close any app.",
+	Short: "close any open app.",
 	Run: func(cmd *cobra.Command, args []string) {
-		closeApp(args)
+		ThrowIf(closeApp{}.Run(args))
 	},
 }
 
@@ -22,7 +24,7 @@ func init() {
 	rootCmd.AddCommand(closeAppCmd)
 }
 
-func closeApp(args []string) {
+func (c closeApp) Run(args []string) error {
 
 	if len(args) > 0 {
 		jetBrainsIdes := [3]string{"phpstorm", "goland", "webstorm"}
@@ -31,17 +33,19 @@ func closeApp(args []string) {
 		}
 		out, err := exec.Command("/bin/sh", "-c", "ps -ax  | grep "+args[0]).Output()
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
 		processes := strings.Split(string(out[:]), "??")
 		if len(processes) > 0 {
 			err := exec.Command("/bin/sh", "-c", "kill "+strings.TrimSpace(processes[0])).Start()
 			if err != nil {
-				log.Fatal(err)
+				return err
 			}
 		}
 	}
+
+	return nil
 }
 
 func itemExists(arrayType interface{}, item interface{}) bool {

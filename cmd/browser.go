@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -10,11 +9,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type browser struct {
+}
+
 var browserCmd = &cobra.Command{
 	Use:   "browser",
-	Short: "opens any URL in your default browser",
+	Short: "opens any URL in default browser",
 	Run: func(cmd *cobra.Command, args []string) {
-		openBrowser(args[0])
+		ThrowIf(browser{}.Run(args))
 	},
 }
 
@@ -28,15 +30,15 @@ const (
 	com   = ".com"
 )
 
-func openBrowser(url string) {
+func (b browser) Run(args []string) error {
+	url := args[0]
 
-	// append the common front part like web protocol stuff.
 	if !strings.Contains(url, http) {
 		url = http + url
 	} else if !strings.Contains(url, https) {
 		url = https + url
 	}
-	// append the common tail part.
+
 	if !strings.Contains(url, com) {
 		url += com
 	}
@@ -53,6 +55,8 @@ func openBrowser(url string) {
 		err = fmt.Errorf("unsupported platform")
 	}
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+
+	return nil
 }

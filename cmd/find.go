@@ -15,7 +15,7 @@ var printCollection []string
 // findCmd represents the path command
 var findCmd = &cobra.Command{
 	Use:   "find",
-	Short: "gets the file or folder path that you are looking for",
+	Short: "search for the file or folder path that you are looking for",
 	RunE: func(cmd *cobra.Command, args []string) error {
 
 		if len(args) > 0 {

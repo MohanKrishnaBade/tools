@@ -17,7 +17,7 @@ type counter struct {
 // treeCmd represents the tree command
 var treeCmd = &cobra.Command{
 	Use:   "tree",
-	Short: "A brief description of your command",
+	Short: " To list directory content in a tree-like format",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		counter := &counter{}
@@ -53,9 +53,8 @@ func tree(root, indent string, counter2 *counter) error {
 	fis, err := ioutil.ReadDir(root)
 	if err != nil {
 		return fmt.Errorf("could not read dir %s: %v", root, err)
-	} else {
-		counter2.dirCount++
 	}
+	counter2.dirCount++
 
 	var names []string
 	for _, fi := range fis {

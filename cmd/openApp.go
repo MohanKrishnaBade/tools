@@ -8,12 +8,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type openApp struct {
+}
+
 // openAppCmd represents the openApp command
 var openAppCmd = &cobra.Command{
 	Use:   "openApp",
-	Short: "A brief description of your command",
+	Short: "open apps that are already installed in your local machine.",
 	Run: func(cmd *cobra.Command, args []string) {
-		execute(args)
+		ThrowIf(openApp{}.Run(args))
 	},
 }
 
@@ -21,11 +24,11 @@ func init() {
 	rootCmd.AddCommand(openAppCmd)
 }
 
-func execute(args []string) {
+func (o openApp) Run(args []string) error {
 
 	argLen := len(args)
 	if argLen < 1 {
-		fmt.Printf("Couldn't process your request with %d arguments", argLen)
+		return fmt.Errorf("couldn't process your request with %d arguments", argLen)
 	} else if argLen == 1 {
 		args = append(args, "./")
 	}
@@ -51,10 +54,11 @@ func execute(args []string) {
 
 	if name != "" {
 		if err := exec.Command(name, cmd).Start(); err != nil {
-			fmt.Printf("%s", err)
+			return fmt.Errorf("%s", err)
 		}
 
 	} else if err := exec.Command(cmd, args[1]).Start(); err != nil {
-		fmt.Printf("%s", err)
+		return fmt.Errorf("%s", err)
 	}
+	return nil
 }
