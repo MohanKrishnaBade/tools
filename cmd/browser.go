@@ -14,7 +14,7 @@ type browser struct {
 
 var browserCmd = &cobra.Command{
 	Use:   "browser",
-	Short: "opens any URL in default browser",
+	Short: "open an URL in the default browser",
 	Run: func(cmd *cobra.Command, args []string) {
 		ThrowIf(browser{}.Run(args))
 	},
